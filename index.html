@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A peer-reviewed, open-access journal dedicated to advancing research across applied sciences, engineering, technology, social sciences, management, humanities, and allied disciplines.">
+    <meta name="keywords" content="IJAAD, applied sciences, engineering, technology, social sciences, management, humanities, research journal, peer-reviewed, open access">
+    <title>International Journal of Applied and Allied Disciplines (IJAAD)</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <style>
+        :root {
+            /* IJAAD Color Palette */
+            --navy: #0E1733;
+            --deep-blue: #132043;
+            --teal: #00A8B5;
+            --gold: #F2B03B;
+            --light-gray: #F7F7F7;
+            --soft-white: #FFFFFF;
+            --main-text: #333333;
+            --muted-text: #555555;
+            
+            /* CSS Custom Properties */
+            --background: var(--soft-white);
+            --foreground: var(--main-text);
+            --card: var(--soft-white);
+            --card-foreground: var(--main-text);
+            --primary: var(--navy);
+            --primary-foreground: var(--soft-white);
+            --secondary: var(--light-gray);
+            --secondary-foreground: var(--main-text);
+            --muted: var(--light-gray);
+            --muted-foreground: var(--muted-text);
+            --accent: var(--teal);
+            --accent-foreground: var(--soft-white);
+            --border: #e5e7eb;
+            --ring: var(--navy);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.6;
+            color: var(--main-text);
+            background: var(--background);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+            height: 4rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--main-text);
+        }
+
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            background: var(--navy);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--main-text);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--navy);
+        }
+
+        .submit-btn {
+            background: var(--teal);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #0095a2;
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--deep-blue) 100%);
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 64rem;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .issn-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--teal);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0095a2;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--navy);
+        }
+
+        .btn-shadow {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--light-gray);
+            padding: 3rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .stat-card {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--muted-text);
+        }
+
+        /* Articles Section */
+        .articles {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--navy);
+        }
+
+        .article-authors {
+            color: var(--muted-text);
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .article-abstract {
+            color: var(--muted-text);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--muted-text);
+        }
+
+        .article-stats {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .read-more {
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .read-more:hover {
+            color: var(--teal);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--navy);
+            color: white;
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+
+            .hero {
+                padding: 4rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-content">
+            <a href="#" class="logo">
+                <div class="logo-icon">IJAAD</div>
+                <span style="display: none;">International Journal of Applied and Allied Disciplines</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#editorial-board">Editorial Board</a></li>
+                <li><a href="#current-issue">Current Issue</a></li>
+                <li><a href="#archives">Archives</a></li>
+                <li><a href="#author-guidelines">For Authors</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            
+            <a href="#submit" class="submit-btn">Submit Paper</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content fade-in">
+            <h1>International Journal of Applied and Allied Disciplines</h1>
+            <div class="hero-subtitle">IJAAD</div>
+            
+            <div class="issn-badges">
+                <div class="badge">ISSN: 1234-5678 (Print)</div>
+                <div class="badge">ISSN: 1234-5686 (Online)</div>
+            </div>
+            
+            <p class="hero-description">
+                A peer-reviewed, open-access journal dedicated to advancing research across applied sciences, 
+                engineering, technology, social sciences, management, humanities, and allied disciplines.
+            </p>
+            
+            <div class="hero-buttons">
+                <a href="#submit" class="btn btn-primary btn-shadow">
+                    📄 Submit Paper
+                </a>
+                <a href="#current-issue" class="btn btn-secondary btn-shadow">
+                    📖 Current Issue
+                </a>
+                <a href="#search" class="btn btn-secondary btn-shadow">
+                    🔍 Search Articles
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-card fade-in">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Published Articles</div>
+            </div>
+            <div class="stat-card fade-in">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Countries</div>
+            </div>
+            <div class="stat-card fade-in">
+                <div class="stat-number">15</div>
+                <div class="stat-label">Volumes</div>
+            </div>
+            <div class="stat-card fade-in">
+                <div class="stat-number">4.2</div>
+                <div class="stat-label">Impact Factor</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Articles Section -->
+    <section class="articles" id="articles">
+        <div class="section-header fade-in">
+            <h2>Latest Articles</h2>
+            <p>Recently published research articles</p>
+        </div>
+        
+        <div class="articles-grid">
+            <article class="article-card fade-in">
+                <h3 class="article-title">Machine Learning Applications in Healthcare: A Comprehensive Review</h3>
+                <div class="article-authors">Dr. Sarah Johnson, Prof. Michael Chen</div>
+                <div class="article-abstract">
+                    This review examines the current state of machine learning applications in healthcare, 
+                    focusing on diagnostic accuracy, treatment optimization, and patient outcomes...
+                </div>
+                <div class="article-meta">
+                    <div class="article-stats">
+                        <span>👁 245 views</span>
+                        <span>📥 89 downloads</span>
+                        <span>DOI: 10.1234/ijaad.2024.001</span>
+                    </div>
+                    <a href="#" class="read-more">Read More →</a>
+                </div>
+            </article>
+
+            <article class="article-card fade-in">
+                <h3 class="article-title">Sustainable Urban Development: Challenges and Opportunities</h3>
+                <div class="article-authors">Dr. Elena Rodriguez, Prof. James Wilson, Dr. Aisha Patel</div>
+                <div class="article-abstract">
+                    Urban sustainability remains a critical challenge in the 21st century. 
+                    This study analyzes innovative approaches to sustainable city planning...
+                </div>
+                <div class="article-meta">
+                    <div class="article-stats">
+                        <span>👁 189 views</span>
+                        <span>📥 67 downloads</span>
+                        <span>DOI: 10.1234/ijaad.2024.002</span>
+                    </div>
+                    <a href="#" class="read-more">Read More →</a>
+                </div>
+            </article>
+
+            <article class="article-card fade-in">
+                <h3 class="article-title">Digital Transformation in Education: Post-Pandemic Perspectives</h3>
+                <div class="article-authors">Prof. David Kumar, Dr. Maria Garcia</div>
+                <div class="article-abstract">
+                    The COVID-19 pandemic accelerated digital transformation in education worldwide. 
+                    This research explores the long-term impacts and future directions...
+                </div>
+                <div class="article-meta">
+                    <div class="article-stats">
+                        <span>👁 156 views</span>
+                        <span>📥 45 downloads</span>
+                        <span>DOI: 10.1234/ijaad.2024.003</span>
+                    </div>
+                    <a href="#" class="read-more">Read More →</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About</h3>
+                <ul class="footer-links">
+                    <li><a href="#about">About IJAAD</a></li>
+                    <li><a href="#editorial-board">Editorial Board</a></li>
+                    <li><a href="#indexing">Indexing & Abstracting</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>For Authors</h3>
+                <ul class="footer-links">
+                    <li><a href="#author-guidelines">Author Guidelines</a></li>
+                    <li><a href="#call-for-papers">Call for Papers</a></li>
+                    <li><a href="#submit">Submit Manuscript</a></li>
+                    <li><a href="#fees">Publication Fees</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>For Reviewers</h3>
+                <ul class="footer-links">
+                    <li><a href="#reviewer-guidelines">Reviewer Guidelines</a></li>
+                    <li><a href="#reviewer-login">Reviewer Login</a></li>
+                    <li><a href="#become-reviewer">Become a Reviewer</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Policies</h3>
+                <ul class="footer-links">
+                    <li><a href="#publication-ethics">Publication Ethics</a></li>
+                    <li><a href="#peer-review-policy">Peer Review Policy</a></li>
+                    <li><a href="#plagiarism-policy">Plagiarism Policy</a></li>
+                    <li><a href="#copyright">Copyright & Licenses</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 International Journal of Applied and Allied Disciplines (IJAAD). All rights reserved.</p>
+            <p>Published under Creative Commons Attribution 4.0 International License</p>
+            <div style="margin-top: 1rem;">
+                <span>🆔 ORCID</span> | 
+                <span>🔗 Crossref</span> | 
+                <span>⚖️ COPE</span> | 
+                <span>📚 DOAJ</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.stat-card, .article-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
