@@ -1,0 +1,349 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      UserRole @default(AUTHOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  editorialBoardMember EditorialBoard[]
+  submittedManuscripts Manuscript[]
+  reviews              Review[]
+  submissions          Submission[]
+}
+
+model Journal {
+  id                    String   @id @default(cuid())
+  name                  String   @default("International Journal of Applied and Allied Disciplines")
+  abbreviation          String   @default("IJAAD")
+  issnPrint             String?
+  issnOnline            String?
+  description           String?
+  mission               String?
+  scope                 String?
+  peerReviewPolicy      String?
+  publicationEthics     String?
+  openAccess            Boolean  @default(true)
+  publicationFrequency  String   @default("Quarterly")
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  issues        Issue[]
+  articles      Article[]
+  editorialBoard EditorialBoard[]
+}
+
+model Issue {
+  id          String     @id @default(cuid())
+  volume      Int
+  issue       Int
+  title       String?
+  description String?
+  publishDate DateTime?
+  isPublished Boolean    @default(false)
+  journalId   String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Relations
+  articles Article[]
+  journal  Journal @relation(fields: [journalId], references: [id])
+
+  @@unique([volume, issue])
+}
+
+model Article {
+  id            String       @id @default(cuid())
+  title         String
+  abstract      String?
+  keywords      String?
+  doi           String?
+  pageStart     String?
+  pageEnd       String?
+  receivedDate  DateTime?
+  acceptedDate  DateTime?
+  publishedDate DateTime?
+  viewCount     Int          @default(0)
+  downloadCount Int          @default(0)
+  status        ArticleStatus @default(DRAFT)
+  articleType   ArticleType  @default(RESEARCH_ARTICLE)
+  issueId       String?
+  journalId     String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // Relations
+  issue   Issue?          @relation(fields: [issueId], references: [id])
+  journal Journal?        @relation(fields: [journalId], references: [id])
+  authors ArticleAuthor[]
+  reviews Review[]
+}
+
+model Author {
+  id          String   @id @default(cuid())
+  name        String
+  email       String?
+  affiliation String?
+  country     String?
+  orcid       String?
+  bio         String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  articles ArticleAuthor[]
+}
+
+model ArticleAuthor {
+  id              String @id @default(cuid())
+  articleId       String
+  authorId        String
+  order           Int
+  isCorresponding Boolean @default(false)
+
+  // Relations
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  author  Author  @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, authorId])
+}
+
+model EditorialBoard {
+  id          String            @id @default(cuid())
+  userId      String
+  journalId   String
+  position    EditorialPosition
+  department  String?
+  institution String?
+  country     String?
+  bio         String?
+  startDate   DateTime          @default(now())
+  endDate     DateTime?
+  isActive    Boolean           @default(true)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id])
+  journal Journal @relation(fields: [journalId], references: [id])
+
+  @@unique([userId, journalId])
+}
+
+model Manuscript {
+  id          String           @id @default(cuid())
+  title       String
+  abstract    String?
+  keywords    String?
+  articleType ArticleType      @default(RESEARCH_ARTICLE)
+  status      ManuscriptStatus @default(SUBMITTED)
+  filePath    String?
+  fileName    String?
+  fileSize    Int?
+  submittedBy String
+  submittedAt DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  // Relations
+  submitter  User       @relation(fields: [submittedBy], references: [id])
+  reviews    Review[]
+  submission Submission?
+}
+
+model Review {
+  id          String              @id @default(cuid())
+  manuscriptId String
+  articleId   String?
+  reviewerId  String
+  recommendation ReviewRecommendation?
+  comments    String?
+  isCompleted Boolean             @default(false)
+  submittedAt DateTime?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  // Relations
+  manuscript Manuscript @relation(fields: [manuscriptId], references: [id], onDelete: Cascade)
+  article   Article?   @relation(fields: [articleId], references: [id])
+  reviewer  User       @relation(fields: [reviewerId], references: [id])
+}
+
+model Submission {
+  id          String           @id @default(cuid())
+  manuscriptId String          @unique
+  submittedBy String
+  status      SubmissionStatus @default(PENDING)
+  submittedAt DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  // Relations
+  manuscript Manuscript @relation(fields: [manuscriptId], references: [id])
+  submitter  User       @relation(fields: [submittedBy], references: [id])
+}
+
+model FullText {
+  id        String   @id @default(cuid())
+  articleId String   @unique
+  content   String
+  html      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CallForPapers {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  deadline    DateTime?
+  themes      String?
+  specialNote String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Announcement {
+  id        String           @id @default(cuid())
+  title     String
+  content   String
+  type      AnnouncementType @default(GENERAL)
+  isActive  Boolean          @default(true)
+  startDate DateTime         @default(now())
+  endDate   DateTime?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+model Indexing {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  url         String?
+  isActive    Boolean  @default(true)
+  logoUrl     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Newsletter {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SpecialIssue {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  guestEditors String?
+  deadline    DateTime?
+  publishDate DateTime?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Institution {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  logoUrl     String?
+  websiteUrl  String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// Enums
+enum UserRole {
+  AUTHOR
+  EDITOR
+  REVIEWER
+  ADMIN
+}
+
+enum ArticleStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  ACCEPTED
+  PUBLISHED
+  REJECTED
+}
+
+enum ArticleType {
+  RESEARCH_ARTICLE
+  REVIEW_ARTICLE
+  SHORT_COMMUNICATION
+  CASE_STUDY
+  EDITORIAL
+  LETTER_TO_EDITOR
+}
+
+enum EditorialPosition {
+  EDITOR_IN_CHIEF
+  ASSOCIATE_EDITOR
+  ASSISTANT_EDITOR
+  ADVISORY_BOARD
+  REVIEWER
+}
+
+enum ManuscriptStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  MAJOR_REVISION
+  MINOR_REVISION
+  ACCEPTED
+  REJECTED
+}
+
+enum ReviewRecommendation {
+  ACCEPT
+  MINOR_REVISION
+  MAJOR_REVISION
+  REJECT
+}
+
+enum SubmissionStatus {
+  PENDING
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+}
+
+enum AnnouncementType {
+  GENERAL
+  CALL_FOR_PAPERS
+  SPECIAL_ISSUE
+  CONFERENCE
+  NEW_ISSUE
+}

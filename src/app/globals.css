@@ -1,0 +1,255 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Lato:wght@300;400;600;700&display=swap');
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-lato);
+  --font-serif: var(--font-lora);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  
+  /* IJAAD Color Palette */
+  --navy: #0E1733;
+  --deep-blue: #132043;
+  --teal: #00A8B5;
+  --gold: #F2B03B;
+  --light-gray: #F7F7F7;
+  --soft-white: #FFFFFF;
+  --main-text: #333333;
+  --muted-text: #555555;
+  
+  /* CSS Custom Properties */
+  --background: var(--soft-white);
+  --foreground: var(--main-text);
+  --card: var(--soft-white);
+  --card-foreground: var(--main-text);
+  --popover: var(--soft-white);
+  --popover-foreground: var(--main-text);
+  --primary: var(--navy);
+  --primary-foreground: var(--soft-white);
+  --secondary: var(--light-gray);
+  --secondary-foreground: var(--main-text);
+  --muted: var(--light-gray);
+  --muted-foreground: var(--muted-text);
+  --accent: var(--teal);
+  --accent-foreground: var(--soft-white);
+  --destructive: #dc2626;
+  --border: #e5e7eb;
+  --input: var(--soft-white);
+  --ring: var(--navy);
+  --chart-1: var(--teal);
+  --chart-2: var(--gold);
+  --chart-3: var(--navy);
+  --chart-4: var(--deep-blue);
+  --chart-5: var(--gold);
+  --sidebar: var(--light-gray);
+  --sidebar-foreground: var(--main-text);
+  --sidebar-primary: var(--navy);
+  --sidebar-primary-foreground: var(--soft-white);
+  --sidebar-accent: var(--teal);
+  --sidebar-accent-foreground: var(--soft-white);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--navy);
+  
+  /* Typography */
+  --font-lora: 'Lora', serif;
+  --font-lato: 'Lato', sans-serif;
+  --font-geist-sans: var(--font-lato);
+  --font-geist-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+.dark {
+  --background: var(--deep-blue);
+  --foreground: var(--soft-white);
+  --card: var(--navy);
+  --card-foreground: var(--soft-white);
+  --popover: var(--navy);
+  --popover-foreground: var(--soft-white);
+  --primary: var(--teal);
+  --primary-foreground: var(--navy);
+  --secondary: var(--deep-blue);
+  --secondary-foreground: var(--soft-white);
+  --muted: var(--navy);
+  --muted-foreground: var(--soft-white);
+  --accent: var(--gold);
+  --accent-foreground: var(--navy);
+  --border: var(--navy);
+  --input: var(--deep-blue);
+  --sidebar: var(--navy);
+  --sidebar-foreground: var(--soft-white);
+  --sidebar-primary: var(--teal);
+  --sidebar-primary-foreground: var(--navy);
+  --sidebar-accent: var(--gold);
+  --sidebar-accent-foreground: var(--navy);
+  --sidebar-border: var(--navy);
+  --sidebar-ring: var(--teal);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    line-height: 1.6;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-semibold;
+    line-height: 1.2;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  h4 {
+    @apply text-xl md:text-2xl;
+  }
+  
+  h5 {
+    @apply text-lg md:text-xl;
+  }
+  
+  h6 {
+    @apply text-base md:text-lg;
+  }
+  
+  p {
+    @apply text-base md:text-lg leading-relaxed;
+  }
+  
+  /* Custom utility classes */
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hero-gradient {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--deep-blue) 100%);
+  }
+  
+  .accent-gradient {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--deep-blue) 100%);
+  }
+  
+  .gold-gradient {
+    background: linear-gradient(135deg, var(--gold) 0%, #f59e0b 100%);
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .card-hover:hover {
+    @apply shadow-lg scale-[1.02] border-accent;
+  }
+  
+  .count-up {
+    animation: countUp 2s ease-out;
+  }
+  
+  @keyframes countUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Discipline color coding */
+  .discipline-applied-sciences {
+    @apply bg-blue-100 text-blue-800 border-blue-200;
+  }
+  
+  .discipline-engineering {
+    @apply bg-green-100 text-green-800 border-green-200;
+  }
+  
+  .discipline-social-sciences {
+    @apply bg-purple-100 text-purple-800 border-purple-200;
+  }
+  
+  .discipline-management {
+    @apply bg-orange-100 text-orange-800 border-orange-200;
+  }
+  
+  .discipline-humanities {
+    @apply bg-pink-100 text-pink-800 border-pink-200;
+  }
+  
+  .discipline-health {
+    @apply bg-red-100 text-red-800 border-red-200;
+  }
+  
+  .discipline-technology {
+    @apply bg-cyan-100 text-cyan-800 border-cyan-200;
+  }
+}
